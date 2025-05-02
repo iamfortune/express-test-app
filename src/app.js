@@ -108,30 +108,198 @@ app
     });
   });
 
+// Categories routes using a separate router
+const categoryRouter = express.Router();
+
+categoryRouter.get("/", (req, res) => {
+  res.json({
+    categories: [
+      { id: 1, name: "Electronics", description: "Electronic devices and gadgets" },
+      { id: 2, name: "Clothing", description: "Apparel and accessories" },
+      { id: 3, name: "Home", description: "Home goods and furniture" }
+    ]
+  });
+});
+
+categoryRouter.post("/", (req, res) => {
+  const { name, description } = req.body;
+  res.status(201).json({
+    message: "Category created",
+    category: { name, description }
+  });
+});
+
+categoryRouter.get("/:id", (req, res) => {
+  const { id } = req.params;
+  res.json({
+    category: { id, name: "Electronics", description: "Electronic devices and gadgets" }
+  });
+});
+
+categoryRouter.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const { name, description } = req.body;
+  res.json({
+    message: "Category updated",
+    category: { id, name, description }
+  });
+});
+
+categoryRouter.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  res.json({
+    message: `Category ${id} deleted`
+  });
+});
+
+// Mount the category router
+app.use("/api/categories", categoryRouter);
+
+// Reviews routes
+const reviewRouter = express.Router();
+
+reviewRouter.get("/", (req, res) => {
+  res.json({
+    reviews: [
+      { id: 1, productId: 1, userId: 2, rating: 5, comment: "Great product!" },
+      { id: 2, productId: 2, userId: 1, rating: 4, comment: "Good quality." }
+    ]
+  });
+});
+
+reviewRouter.post("/", (req, res) => {
+  const { productId, rating, comment } = req.body;
+  res.status(201).json({
+    message: "Review created",
+    review: { productId, rating, comment, userId: 1 }
+  });
+});
+
+reviewRouter.get("/:id", (req, res) => {
+  const { id } = req.params;
+  res.json({
+    review: { id, productId: 1, userId: 2, rating: 5, comment: "Great product!" }
+  });
+});
+
+reviewRouter.put("/:id", (req, res) => {
+  const { id } = req.params;
+  const { rating, comment } = req.body;
+  res.json({
+    message: "Review updated",
+    review: { id, rating, comment }
+  });
+});
+
+reviewRouter.delete("/:id", (req, res) => {
+  const { id } = req.params;
+  res.json({
+    message: `Review ${id} deleted`
+  });
+});
+
+app.use("/api/reviews", reviewRouter);
+
+// Cart routes
 app
-  .route("/api/likes/:id")
+  .route("/api/cart")
   .get((req, res) => {
-    const { id } = req.params;
     res.json({
-      order: { id, items: ["Product 1"] },
+      cart: {
+        userId: 1,
+        items: [
+          { productId: 1, quantity: 2, price: 99.99 },
+          { productId: 2, quantity: 1, price: 149.99 }
+        ],
+        total: 349.97
+      }
     });
   })
-  .put((req, res) => {
-    const { id } = req.params;
-    const { items } = req.body;
-    res.json({
-      message: "Order updated",
-      order: { id, items },
+  .post((req, res) => {
+    const { productId, quantity } = req.body;
+    res.status(200).json({
+      message: "Item added to cart",
+      item: { productId, quantity }
     });
   })
   .delete((req, res) => {
-    const { id } = req.params;
     res.json({
-      message: `Order ${id} deleted`,
+      message: "Cart cleared"
     });
   });
 
+app
+  .route("/api/cart/:productId")
+  .put((req, res) => {
+    const { productId } = req.params;
+    const { quantity } = req.body;
+    res.json({
+      message: "Cart item updated",
+      item: { productId, quantity }
+    });
+  })
+  .delete((req, res) => {
+    const { productId } = req.params;
+    res.json({
+      message: `Product ${productId} removed from cart`
+    });
+  });
 
+// Authentication routes
+app.post("/api/auth/login", (req, res) => {
+  const { email, password } = req.body;
+  res.json({
+    message: "Login successful",
+    token: "sample-jwt-token",
+    user: {
+      id: 1,
+      name: "John Doe",
+      email: "john@example.com"
+    }
+  });
+});
+
+app.post("/api/auth/register", (req, res) => {
+  const { name, email, password } = req.body;
+  res.status(201).json({
+    message: "Registration successful",
+    user: {
+      id: 3,
+      name,
+      email
+    }
+  });
+});
+
+app.post("/api/auth/logout", (req, res) => {
+  res.json({
+    message: "Logout successful"
+  });
+});
+
+app.post("/api/auth/reset-password", (req, res) => {
+  const { email } = req.body;
+  res.json({
+    message: "Password reset link sent"
+  });
+});
+
+// Webhook routes for external integrations
+app.post("/api/webhooks/payment", (req, res) => {
+  const { type, data } = req.body;
+  res.json({
+    message: "Payment webhook received",
+    status: "processed"
+  });
+});
+
+app.post("/api/webhooks/inventory", (req, res) => {
+  const { updates } = req.body;
+  res.json({
+    message: "Inventory webhook received",
+    status: "updated"
+  });
+});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
