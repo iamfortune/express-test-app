@@ -277,29 +277,6 @@ app.post("/api/auth/logout", (req, res) => {
   });
 });
 
-app.post("/api/auth/reset-password", (req, res) => {
-  const { email } = req.body;
-  res.json({
-    message: "Password reset link sent"
-  });
-});
-
-// Webhook routes for external integrations
-app.post("/api/webhooks/payment", (req, res) => {
-  const { type, data } = req.body;
-  res.json({
-    message: "Payment webhook received",
-    status: "processed"
-  });
-});
-
-app.post("/api/webhooks/inventory", (req, res) => {
-  const { updates } = req.body;
-  res.json({
-    message: "Inventory webhook received",
-    status: "updated"
-  });
-});
 
 // Error handling middleware
 app.use((err, req, res, next) => {
