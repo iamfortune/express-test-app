@@ -108,6 +108,31 @@ app
     });
   });
 
+app
+  .route("/api/likes/:id")
+  .get((req, res) => {
+    const { id } = req.params;
+    res.json({
+      order: { id, items: ["Product 1"] },
+    });
+  })
+  .put((req, res) => {
+    const { id } = req.params;
+    const { items } = req.body;
+    res.json({
+      message: "Order updated",
+      order: { id, items },
+    });
+  })
+  .delete((req, res) => {
+    const { id } = req.params;
+    res.json({
+      message: `Order ${id} deleted`,
+    });
+  });
+
+
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
