@@ -1,6 +1,6 @@
-# express-test-app API Documentation
+# express-test-app-1 API Documentation
 
-This documentation site is automatically generated from the express-test-app project.
+This documentation site is automatically generated from the express-test-app-1 project.
 
 ## Development
 
