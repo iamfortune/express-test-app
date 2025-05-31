@@ -391,8 +391,8 @@ export default function Documentation() {
   return (
     <div className="documentation-container">
       <Head>
-        <title>express-test-app API Documentation</title>
-        <meta name="description" content="API Documentation for express-test-app" />
+        <title>express-test-app-1 API Documentation</title>
+        <meta name="description" content="API Documentation for express-test-app-1" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </Head>
       
@@ -400,7 +400,7 @@ export default function Documentation() {
       <header className="header">
         <div className="header-content">
           <div className="logo-section">
-            <h1 className="project-title">express-test-app</h1>
+            <h1 className="project-title">express-test-app-1</h1>
             <p className="project-subtitle">API Documentation</p>
           </div>
           <div className="version-badge">v1.0.0</div>
@@ -449,7 +449,7 @@ export default function Documentation() {
           <section id="introduction" className="content-section">
             <h2>Introduction</h2>
             <p className="intro-text">
-              Welcome to the express-test-app API documentation. This API allows you to integrate with our service 
+              Welcome to the express-test-app-1 API documentation. This API allows you to integrate with our service 
               and access all the functionality programmatically.
             </p>
             <p className="description">
