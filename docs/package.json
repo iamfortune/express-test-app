@@ -1,7 +1,7 @@
 {
-  "name": "express-test-app-docs",
+  "name": "express-test-app-1-docs",
   "version": "1.0.0",
-  "description": "API Documentation for express-test-app",
+  "description": "API Documentation for express-test-app-1",
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
